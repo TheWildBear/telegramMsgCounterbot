@@ -1,0 +1,7 @@
+{
+        "dbreaduserhost":"database_host",
+        "dbreaduser":"database_user",
+        "dbreaduserpwd":"database_pwd",
+        "bottoken":"your_token",
+	"database":"counterdb"
+}
