@@ -155,7 +155,7 @@ bot.on('/updateuserinfo', (msg) => {
         db.getConnection(function(err, connection){
                 connection.query(sqlcmd, values, function(err, result){
                         if(err) throw err;
-                        //bot.deleteMessage(msg.chat.id, msg.message_id);
+			bot.deleteMessage(msg.chat.id, msg.message_id);
                         msg.reply.text("Your User infos have been updated").then(function(msg)
                         {
                                 setTimeout(function(){
@@ -174,7 +174,7 @@ bot.on('/deleteuserinfo', (msg) => {
         db.getConnection(function(err, connection){
 		connection.query(sqlcmd, values, function(err, result){
                         if(err) throw err;
-                        //bot.deleteMessage(msg.chat.id, msg.message_id);
+                        bot.deleteMessage(msg.chat.id, msg.message_id);
                         msg.reply.text("Your User infos have been updated").then(function(msg)
                         {
                                 setTimeout(function(){
@@ -229,4 +229,5 @@ bot.on('/ping', (msg) => {
                         	bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
                        	}, config.waittimeping);
                	});
+	bot.deleteMessage(msg.chat.id, msg.message_id);
 });
