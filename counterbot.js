@@ -98,7 +98,7 @@ bot.on('/deletemymsgs', (msg) => {
 	});
 });
 
-bot.on('/start', (msg) => {
+bot.on(['/start', '/help'], (msg) => {
 	let startmsg = "Commands:\n/optin (agree to collecting your messages for counting your msgs)\n/optout (disable collection)\n/checklogging (check collection status)\n/overallmsgs (overall amount of msgs in group)\n/mymsgs (you're amount of msgs)\n/deletemymsgs (remove all collected data from the DB)\n\nThis bot collects data which will be used in the future for analysis and learning big data. It's opt in and does not collect any data if you are opted out. I would appreciate if you would donate me you're data!\nP. S. All data is anonymized";
 	msg.reply.text(startmsg);
 	bot.deleteMessage(msg.chat.id, msg.message_id);
