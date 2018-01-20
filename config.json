@@ -9,7 +9,7 @@
 	"waittimecheckcounting":"10000",
 	"waittimeoverallmsgs":"10000",
 	"waittimemymsgs":"10000",
-	"waittimedeletemymsgs)":"10000",
+	"waittimedeletemymsgs":"10000",
 	"waittimestart":"10000",
 	"waittimeupdateuserinfo":"10000",
 	"waittimedeleteuserinfo":"10000",
