@@ -3,5 +3,16 @@
         "dbreaduser":"database_user",
         "dbreaduserpwd":"database_pwd",
         "bottoken":"your_token",
-	"database":"counterdb"
+	"database":"counterdb",
+	"waittimeoptin":"10000",
+	"waittimeoptout":"10000",
+	"waittimecheckcounting":"10000",
+	"waittimeoverallmsgs":"10000",
+	"waittimemymsgs":"10000",
+	"waittimedeletemymsgs)":"10000",
+	"waittimestart":"10000",
+	"waittimeupdateuserinfo":"10000",
+	"waittimedeleteuserinfo":"10000",
+	"waittimetop":"10000",
+	"waittimeping":"10000"
 }

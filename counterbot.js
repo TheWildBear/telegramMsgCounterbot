@@ -22,6 +22,8 @@ var db = mysql.createPool({
 	charset : 'utf8mb4'
 });
 
+let cooldown = [];
+
 bot.start();
 
 bot.on('text', (msg) => {
@@ -44,7 +46,12 @@ bot.on('/optin', (msg) => {
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, [values], function(err, result){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
-			msg.reply.text("You opted in for data collection!");
+			msg.reply.text("You opted in for data collection!").then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimeoptin);
+                        });
 			connection.release();
 		});
 	});
@@ -55,7 +62,12 @@ bot.on('/optout', (msg) =>{
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, result){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
-			msg.reply.text("You opted out for data collection");
+			msg.reply.text("You opted out for data collection").then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimeoptout);
+                        });
 			connection.release();
 		});
 	});
@@ -66,7 +78,12 @@ bot.on('/checkcounting', (msg) => {
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
-			msg.reply.text("Your current status is: " + util.inspect(rows[0].logging,false,null));
+			msg.reply.text("Your current status is: " + util.inspect(rows[0].logging,false,null)).then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimecheckcounting);
+                        });
 			connection.release();
 		});
 	});
@@ -77,7 +94,12 @@ bot.on('/overallmsgs', (msg) => {
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
-        	        msg.reply.text("The current amount of overall msgs is: " + util.inspect(rows[0].amount,false,null));
+        	        msg.reply.text("The current amount of overall msgs is: " + util.inspect(rows[0].amount,false,null)).then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimeoverallmsgs);
+                        });
 			connection.release();
 	        });
 	});
@@ -88,7 +110,12 @@ bot.on('/mymsgs', (msg) => {
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
-        	        msg.reply.text(msg.from.username + " current amount of own msgs is: " + util.inspect(rows[0].amount,false,null));
+        	        msg.reply.text(msg.from.username + " current amount of own msgs is: " + util.inspect(rows[0].amount,false,null)).then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimemymsgs);
+                        });
 			connection.release();
 	        });
 	});
@@ -99,7 +126,12 @@ bot.on('/deletemymsgs', (msg) => {
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
-                	msg.reply.text("Your msgs have been deleted :(");
+                	msg.reply.text("Your msgs have been deleted :(").then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimedeletemymsgs);
+                        });
 			connection.release();
 	        });
 	});
@@ -107,7 +139,12 @@ bot.on('/deletemymsgs', (msg) => {
 
 bot.on(['/start', '/help'], (msg) => {
 	let startmsg = "Commands:\n/optin (agree to collecting your messages for counting your msgs)\n/optout (disable collection)\n/checklogging (check collection status)\n/overallmsgs (overall amount of msgs in group)\n/mymsgs (you're amount of msgs)\n/deletemymsgs (remove all collected data from the DB)\n\nThis bot collects data which will be used in the future for analysis and learning big data. It's opt in and does not collect any data if you are opted out. I would appreciate if you would donate me you're data!\nP. S. All data is anonymized";
-	msg.reply.text(startmsg);
+	msg.reply.text(startmsg).then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimestart);
+                        });
 	bot.deleteMessage(msg.chat.id, msg.message_id);
 });
 
@@ -119,7 +156,12 @@ bot.on('/updateuserinfo', (msg) => {
                 connection.query(sqlcmd, values, function(err, result){
                         if(err) throw err;
                         //bot.deleteMessage(msg.chat.id, msg.message_id);
-                        msg.reply.text("Your User infos have been updated");
+                        msg.reply.text("Your User infos have been updated").then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimeupdateuserinfo);
+                        });
                         connection.release();
                 });
         });
@@ -133,7 +175,12 @@ bot.on('/deleteuserinfo', (msg) => {
 		connection.query(sqlcmd, values, function(err, result){
                         if(err) throw err;
                         //bot.deleteMessage(msg.chat.id, msg.message_id);
-                        msg.reply.text("Your User infos have been updated");
+                        msg.reply.text("Your User infos have been updated").then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimedeleteuserinfo);
+                        });
                         connection.release();
                 });
         });
@@ -163,12 +210,22 @@ bot.on('/top', (msg) => {
                                 result = result + "\n";
                         }
                         result = result + "\nIf you want you're name to show up use: /updateuserinfo\nWhen you want to anonymize youreself again use /deleteuserinfo";
-                        msg.reply.text(result, { parseMode: 'markdown' });
+                        msg.reply.text(result, { parseMode: 'markdown' }).then(function(msg)
+                        {
+                                setTimeout(function(){
+                                        bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                                }, config.waittimetop);
+                        });
                         connection.release();
                 });
         });
 });
 
 bot.on('/ping', (msg) => {
-        msg.reply.text("Pong, Pung, Ping! Ente!!!! FOOOOOOOSSS!!!");
+        msg.reply.text("Pong, Pung, Ping! Ente!!!! FOOOOOOOSSS!!!").then(function(msg)
+		{
+                	setTimeout(function(){
+                        	bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
+                       	}, config.waittimeping);
+               	});
 });
