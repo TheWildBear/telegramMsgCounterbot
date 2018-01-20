@@ -152,7 +152,7 @@ bot.on('/top', (msg) => {
                                 }else{
                                         user = ". " + rows[i].User;
                                 }
-                                result = result + i + user + " | Messages#: " + rows[i].Msgs;
+                                result = result + i + user + " | Msgs#: " + rows[i].Msgs;
                                 result = result + "\n";
                         }
                         result = result + "\nIf you want you're name to show up use: /updateuserinfo\nWhen you want to anonymize youreself again use /deleteuserinfo";
