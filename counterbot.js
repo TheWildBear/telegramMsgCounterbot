@@ -216,6 +216,7 @@ bot.on('/top', (msg) => {
                                         bot.deleteMessage(msg.result.chat.id,msg.result.message_id);
                                 }, config.waittimetop);
                         });
+			bot.deleteMessage(msg.chat.id, msg.message_id);
                         connection.release();
                 });
         });
