@@ -33,6 +33,7 @@ bot.on('text', (msg) => {
 			        var values = [[msg.message_id, msg.from.id, msg.chat.id]];
 		        	db.query(sqlcmd, [values]);
 			}
+			connection.release();
 		});
 	});
 });
@@ -44,6 +45,7 @@ bot.on('/optin', (msg) => {
                 connection.query(sqlcmd, [values], function(err, result){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
 			msg.reply.text("You opted in for data collection!");
+			connection.release();
 		});
 	});
 });
@@ -54,6 +56,7 @@ bot.on('/optout', (msg) =>{
                 connection.query(sqlcmd, function(err, result){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
 			msg.reply.text("You opted out for data collection");
+			connection.release();
 		});
 	});
 });
@@ -64,6 +67,7 @@ bot.on('/checkcounting', (msg) => {
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
 			msg.reply.text("Your current status is: " + util.inspect(rows[0].logging,false,null));
+			connection.release();
 		});
 	});
 });
@@ -74,6 +78,7 @@ bot.on('/overallmsgs', (msg) => {
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
         	        msg.reply.text("The current amount of overall msgs is: " + util.inspect(rows[0].amount,false,null));
+			connection.release();
 	        });
 	});
 });
@@ -84,6 +89,7 @@ bot.on('/mymsgs', (msg) => {
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
         	        msg.reply.text(msg.from.username + " current amount of own msgs is: " + util.inspect(rows[0].amount,false,null));
+			connection.release();
 	        });
 	});
 });
@@ -94,6 +100,7 @@ bot.on('/deletemymsgs', (msg) => {
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
                 	msg.reply.text("Your msgs have been deleted :(");
+			connection.release();
 	        });
 	});
 });
