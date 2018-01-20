@@ -29,8 +29,8 @@ bot.on('text', (msg) => {
 	db.getConnection(function(err, connection){
                 connection.query(checkoptin, function(err, rows){
 			if(rows[0].checkOptin==1){
-				var sqlcmd = "INSERT INTO messagetable (msgid, userid, username, groupid) VALUES ?";
-			        var values = [[msg.message_id, msg.from.id, msg.from.username, msg.chat.id]];
+				var sqlcmd = "INSERT INTO messagetable (msgid, userid, groupid) VALUES ?";
+			        var values = [[msg.message_id, msg.from.id, msg.chat.id]];
 		        	db.query(sqlcmd, [values]);
 			}
 		});
