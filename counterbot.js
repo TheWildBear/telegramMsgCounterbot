@@ -234,8 +234,6 @@ bot.on('/ping', (msg) => {
 
 //sends a list containing the top 10 people writing msgs of today
 bot.on('/toptoday', (msg) => {
-        if(msg.text.split(' ')[0].endsWith(botname)||msg.text.split(' ')[0].endsWith('/toptoday'))
-        {
                 bot.sendAction(msg.chat.id, 'typing');
                 let SELECT = "SELECT DISTINCT COUNT( `messagetable`.`msgid` ) AS `Msgs`, `messagetable`.`userid` AS `User`, `optintable`.`username` AS `Username`";
                 let FROM = "FROM { oj `db`.`messagetable` AS `messagetable` NATURAL LEFT OUTER JOIN `db`.`optintable` AS `optintable` }";
@@ -274,13 +272,10 @@ bot.on('/toptoday', (msg) => {
                                 if(logging == 1){console.log(result);}
                         });
                 });
-        }
 });
 
 //sends a list containing the top 10 people writing msgs of the last week
 bot.on('/top1week', (msg) => {
-        if(msg.text.split(' ')[0].endsWith(botname)||msg.text.split(' ')[0].endsWith('/toptoday'))
-        {
                 bot.sendAction(msg.chat.id, 'typing');
                 let SELECT = "SELECT DISTINCT COUNT( `messagetable`.`msgid` ) AS `Msgs`, `messagetable`.`userid` AS `User`, `optintable`.`username` AS `Username`";
                 let FROM = "FROM { oj `db`.`messagetable` AS `messagetable` NATURAL LEFT OUTER JOIN `db`.`optintable` AS `optintable` }";
@@ -319,5 +314,4 @@ bot.on('/top1week', (msg) => {
                                 if(logging == 1){console.log(result);}
                         });
                 });
-        }
 });
