@@ -236,8 +236,8 @@ bot.on('/ping', (msg) => {
 bot.on('/toptoday', (msg) => {
                 bot.sendAction(msg.chat.id, 'typing');
                 let SELECT = "SELECT DISTINCT COUNT( `messagetable`.`msgid` ) AS `Msgs`, `messagetable`.`userid` AS `User`, `optintable`.`username` AS `Username`";
-                let FROM = "FROM { oj `db`.`messagetable` AS `messagetable` NATURAL LEFT OUTER JOIN `db`.`optintable` AS `optintable` }";
-                let WHERE = " WHERE `messagetable`.`text` NOT LIKE '/%' AND DATE(`messagetable`.`time`) = CURDATE()";
+                let FROM = " FROM { oj `counterdb`.`messagetable` AS `messagetable` NATURAL LEFT OUTER JOIN `counterdb`.`optintable` AS `optintable` }";
+                let WHERE = " WHERE DATE(`messagetable`.`time`) = CURDATE()";
                 let GROUP = " GROUP BY `messagetable`.`userid`";
                 let ORDER = " ORDER BY `Msgs` DESC LIMIT 10;";
                 let sqlcmd = SELECT + FROM + WHERE + GROUP + ORDER;
@@ -269,7 +269,6 @@ bot.on('/toptoday', (msg) => {
                                         }, 60000);
                                 });
                                 connection.release();
-                                if(logging == 1){console.log(result);}
                         });
                 });
 });
@@ -278,8 +277,8 @@ bot.on('/toptoday', (msg) => {
 bot.on('/top1week', (msg) => {
                 bot.sendAction(msg.chat.id, 'typing');
                 let SELECT = "SELECT DISTINCT COUNT( `messagetable`.`msgid` ) AS `Msgs`, `messagetable`.`userid` AS `User`, `optintable`.`username` AS `Username`";
-                let FROM = "FROM { oj `db`.`messagetable` AS `messagetable` NATURAL LEFT OUTER JOIN `db`.`optintable` AS `optintable` }";
-		let WHERE = " WHERE (`messagetable`.`text` NOT LIKE '/%') AND (`messagetable`.`time` < (now() - INTERVAL 1 WEEK))";
+                let FROM = " FROM { oj `counterdb`.`messagetable` AS `messagetable` NATURAL LEFT OUTER JOIN `counterdb`.`optintable` AS `optintable` }";
+		let WHERE = " WHERE (`messagetable`.`time` < (now() - INTERVAL 1 WEEK))";
                 let GROUP = " GROUP BY `messagetable`.`userid`";
                 let ORDER = " ORDER BY `Msgs` DESC LIMIT 10;";
                 let sqlcmd = SELECT + FROM + WHERE + GROUP + ORDER;
@@ -311,7 +310,6 @@ bot.on('/top1week', (msg) => {
                                         }, 60000);
                                 });
                                 connection.release();
-                                if(logging == 1){console.log(result);}
                         });
                 });
 });
