@@ -278,7 +278,7 @@ bot.on('/top1week', (msg) => {
                 bot.sendAction(msg.chat.id, 'typing');
                 let SELECT = "SELECT DISTINCT COUNT( `messagetable`.`msgid` ) AS `Msgs`, `messagetable`.`userid` AS `User`, `optintable`.`username` AS `Username`";
                 let FROM = " FROM { oj `counterdb`.`messagetable` AS `messagetable` NATURAL LEFT OUTER JOIN `counterdb`.`optintable` AS `optintable` }";
-		let WHERE = " WHERE (`messagetable`.`time` < (now() - INTERVAL 1 WEEK))";
+		let WHERE = " WHERE (`messagetable`.`time` > (now() - INTERVAL 1 WEEK))";
                 let GROUP = " GROUP BY `messagetable`.`userid`";
                 let ORDER = " ORDER BY `Msgs` DESC LIMIT 10;";
                 let sqlcmd = SELECT + FROM + WHERE + GROUP + ORDER;
