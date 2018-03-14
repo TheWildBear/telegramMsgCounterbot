@@ -11,7 +11,7 @@ const bot = new Telebot({
 	limit: 1000});
 const util = require('util');
 const mysql = require('mysql'); 
-var fs = require('fs');
+const hash = require('hash-int');
 var log;
 var db = mysql.createPool({
 	connectionLimit : 100,
@@ -27,12 +27,12 @@ let cooldown = [];
 bot.start();
 
 bot.on('text', (msg) => {
-	var checkoptin = "SELECT COUNT(*) AS checkOptin FROM optintable where userid = " + msg.from.id + ";";
+	var checkoptin = "SELECT COUNT(*) AS checkOptin FROM optintable where userid = " + hash(msg.from.id) + ";";
 	db.getConnection(function(err, connection){
                 connection.query(checkoptin, function(err, rows){
 			if(rows[0].checkOptin==1){
 				var sqlcmd = "INSERT INTO messagetable (msgid, userid, groupid) VALUES ?";
-			        var values = [[msg.message_id, msg.from.id, msg.chat.id]];
+			        var values = [[msg.message_id, hash(msg.from.id), msg.chat.id]];
 		        	db.query(sqlcmd, [values]);
 			}
 			connection.release();
@@ -42,7 +42,7 @@ bot.on('text', (msg) => {
 
 bot.on('/optin', (msg) => {
 	let sqlcmd = "INSERT INTO optintable (userid) VALUES ?";
-	var values = [[msg.from.id]];
+	var values = [[hash(msg.from.id)]];
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, [values], function(err, result){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -58,7 +58,7 @@ bot.on('/optin', (msg) => {
 });
 
 bot.on('/optout', (msg) =>{
-	let sqlcmd = "DELETE FROM optintable WHERE userid = " + msg.from.id + ";";
+	let sqlcmd = "DELETE FROM optintable WHERE userid = " + hash(msg.from.id) + ";";
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, result){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -74,7 +74,7 @@ bot.on('/optout', (msg) =>{
 });
 
 bot.on('/checkcounting', (msg) => {
-	let sqlcmd = "SELECT COUNT(*) AS logging FROM optintable where userid = " + msg.from.id + ";";
+	let sqlcmd = "SELECT COUNT(*) AS logging FROM optintable where userid = " + hash(msg.from.id) + ";";
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -106,7 +106,7 @@ bot.on('/overallmsgs', (msg) => {
 });
 
 bot.on('/mymsgs', (msg) => {
-        let sqlcmd = "SELECT COUNT(*) AS amount FROM messagetable WHERE userid = " + msg.from.id + ";";
+        let sqlcmd = "SELECT COUNT(*) AS amount FROM messagetable WHERE userid = " + hash(msg.from.id) + ";";
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -122,7 +122,7 @@ bot.on('/mymsgs', (msg) => {
 });
 
 bot.on('/deletemymsgs', (msg) => {
-        let sqlcmd = "DELETE FROM messagetable WHERE userid = " + msg.from.id + ";";
+        let sqlcmd = "DELETE FROM messagetable WHERE userid = " + hash(msg.from.id) + ";";
 	db.getConnection(function(err, connection){
                 connection.query(sqlcmd, function(err, rows){
 			bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -151,7 +151,7 @@ bot.on(['/start', '/help'], (msg) => {
 //updates userinformation
 bot.on('/updateuserinfo', (msg) => {
         let sqlcmd = "UPDATE optintable SET username = ? WHERE userid = ?";
-        var values = [msg.from.username, msg.from.id];
+        var values = [msg.from.username, hash(msg.from.id)];
         db.getConnection(function(err, connection){
                 connection.query(sqlcmd, values, function(err, result){
                         if(err) throw err;
@@ -170,7 +170,7 @@ bot.on('/updateuserinfo', (msg) => {
 //updates userinformation
 bot.on('/deleteuserinfo', (msg) => {
         let sqlcmd = "UPDATE optintable SET username = null WHERE userid = ?";
-        var values = [msg.from.id];
+        var values = [hash(msg.from.id)];
         db.getConnection(function(err, connection){
 		connection.query(sqlcmd, values, function(err, result){
                         if(err) throw err;
