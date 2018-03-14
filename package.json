@@ -4,7 +4,6 @@
   "description": "",
   "main": "counterbot.js",
   "dependencies": {
-    "fs": "0.0.1-security",
     "hash-int": "^1.0.0",
     "mysql": "^2.15.0",
     "telebot": "^1.2.3",
