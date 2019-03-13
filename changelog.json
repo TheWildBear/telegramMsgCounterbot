@@ -1,0 +1,4 @@
+{
+        "1_1":"\n- Added /info to display botname, version and changelog\n- Fixed issue with support answer\n- Added /delete Reply to a message to delete it\n- Fixed /help trigger in Groups, bot will only awnser if you use /help@msgCounter_bot\n- Updated /help text\n- Added /cl help\n\nNext big update?\n- FritzOS API Connection\n- Full Support for Fritz!DECT 200\n- Advanced Graphs and database for Dect 200 powerusage, voltage and temperature",
+        "versionfix":"\n- Changed /info to /botinfo\n- "
+}
